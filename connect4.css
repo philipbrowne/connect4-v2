@@ -44,6 +44,7 @@ text-align: center;
 
 #startContainer{
 transform: translateY(15rem);
+font-size: 1.5rem;
 }
 #p2color{
   margin-top: 1rem;
