@@ -5,11 +5,17 @@
  * board fills (tie)
  */
 
+const game = document.getElementById('game');
+const startBtn = document.getElementById('startBtn');
+const startGame = document.getElementById('startGame');
+ 
 class Game {
-  constructor(HEIGHT = 6, WIDTH = 7) {
+  constructor(p1, p2, HEIGHT = 6, WIDTH = 7) {
+    this.players = [p1, p2];
     this.HEIGHT = HEIGHT;
     this.WIDTH = WIDTH;
-    this.currPlayer = 1;
+    this.currPlayer = p1;
+    this.playerTurn = 1;
     this.board = [];
     this.makeBoard();
     this.makeHtmlBoard();
@@ -19,14 +25,23 @@ class Game {
  *   board = array of rows, each row is array of cells  (board[y][x])
  */
   makeBoard() {
+    this.board.length = 0;
     for (let y = 0; y < this.HEIGHT; y++) {
       this.board.push(Array.from({ length: this.WIDTH }));
     }
-  }
+  };
   /** makeHtmlBoard: make HTML table and row of column tops. */
   makeHtmlBoard() {
+    const table = document.createElement('table');
+    table.setAttribute('id', 'board');
+    game.append(table);
+    
     const board = document.getElementById('board');
-
+    board.innerHTML = '';
+    const playerTurn = document.createElement('div');
+    playerTurn.removeAttribute('class');
+    playerTurn.setAttribute('id', 'playerTurn');
+    game.append(playerTurn);
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement('tr');
     top.setAttribute('id', 'column-top');
@@ -51,6 +66,26 @@ class Game {
       }
       board.append(row);
     }
+    playerTurn.innerHTML = '';
+    const bottom = document.getElementById('bottom');
+    bottom.innerHTML = '';
+    const playerTurnMsg = document.createElement('span');
+    const playerTurnToken = document.createElement('div');
+    playerTurnMsg.innerText = `Player ${this.playerTurn}'s Turn`;
+    playerTurnMsg.style.color = `${this.currPlayer.color}`;
+    if (playerTurnMsg.style.color === 'white') {
+      playerTurnMsg.style.color = 'black';
+    }
+    playerTurn.classList.add('player1Msg');
+    playerTurnToken.classList.add('playerToken');
+    playerTurnToken.classList.add(`${this.currPlayer.color}`);
+    playerTurn.append(playerTurnMsg);
+    playerTurn.append(playerTurnToken);
+    const restartBtn = document.createElement('button');
+    restartBtn.setAttribute('id', 'startBtn');
+    restartBtn.innerText = 'Restart Game';
+    restartBtn.addEventListener('click', this.restartGame.bind(this));
+    bottom.append(restartBtn);
   }
 
 
@@ -69,28 +104,68 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.classList.add(`p${this.currPlayer}`);
+    piece.classList.add(`${this.currPlayer.color}`);
     piece.style.top = -50 * (y + 2);
-
     const spot = document.getElementById(`${y}-${x}`);
     spot.append(piece);
+    this.dropDown(spot, piece);
   }
-
+  dropDown (position, piece) {
+    let yPos = position.offsetTop;
+    piece.style.position = 'absolute';
+    piece.style.top = `${-yPos + 150}px`;
+    // This was the closest I could find to the top row
+    piece.style.left = '5px';
+    let interval = setInterval(() => this.dropDownMvt(piece, interval), 12);
+  }
+  dropDownMvt (piece, interval) {
+    let yPos = piece.offsetTop;
+    if (yPos < 10) {
+      piece.style.top = `${yPos + 30}px`;
+    } else {
+      piece.style.position = 'relative';
+      piece.style.top = 'unset';
+      piece.style.left = 'unset';
+      clearInterval(interval);
+    }
+  }
   /** endGame: announce game end */
 
   endGame(msg) {
     alert(msg);
-    const top = document.getElementById('column-top')
+    const top = document.getElementById('column-top');
+    top.setAttribute('id', 'gameovertop');
     this.isGameOver = true;
+    this.gameOverMsg();
+  }
+
+  gameOverMsg() {
+    const gameOverMsg = document.createElement('span');
+    const playerTurn = document.getElementById('playerTurn');
+    playerTurn.innerHTML = '';
+    if (!this.checkForTie()) {
+      gameOverMsg.innerText = `Player ${this.playerTurn} wins!`;
+      gameOverMsg.style.color = `${this.currPlayer.color}`;
+    }
+    else { gameOverMsg.innerText = 'TIE GAME!' };
+    const restartBtn = document.getElementById('startBtn');
+    restartBtn.style.display = 'none';
+    playerTurn.setAttribute('class', 'gameovermsg');
+    playerTurn.append(gameOverMsg);
+    const playAgain = document.createElement('div');
+    playAgain.setAttribute('id', 'playAgain');
+    playAgain.innerText = 'Click to Play Again';
+    playAgain.addEventListener('click', this.restartGame.bind(this));
+    playerTurn.append(playAgain);
   }
 
   /** handleClick: handle click of column top to play piece */
 
   handleClick(evt) {
+    const playerTurn = document.getElementById('playerTurn');
     // get x from ID of clicked cell
     if (!this.isGameOver) {
       const x = +evt.target.id;
-      console.log(this)
       // get next spot in column (if none, ignore click)
       const y = this.findSpotForCol(x);
       if (y === null) {
@@ -103,16 +178,33 @@ class Game {
 
       // check for win
       if (this.checkForWin()) {
-        return this.endGame(`Player ${this.currPlayer} won!`);
+        const winningPiece = document.getElementById(`${y}-${x}`).querySelector('div');
+        winningPiece.classList.add('winningPiece');
+        return this.endGame(`Player ${this.playerTurn} wins!`);
       }
 
       // // check for tie
-      if (this.board.every(row => row.every(cell => cell))) {
-        return this.endGame('Tie!');
+      if (this.checkForTie()) {
+        return endGame('TIE GAME!');
       }
-
       // switch players
-      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+      this.currPlayer = this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
+      if (this.playerTurn === 1) {
+        this.playerTurn = 2;
+      } else this.playerTurn = 1;
+      playerTurn.innerHTML = '';
+      const playerTurnMsg = document.createElement('span');
+      const playerTurnToken = document.createElement('div');
+      playerTurnToken.classList.remove(...playerTurnToken.classList);
+      playerTurnMsg.innerText = `Player ${this.playerTurn}'s Turn`;
+      playerTurnToken.classList.add('playerToken');
+      playerTurnToken.classList.add(`${this.currPlayer.color}`);
+      playerTurnMsg.style.color = `${this.currPlayer.color}`;
+      if (playerTurnMsg.style.color === 'white') {
+        playerTurnMsg.style.color = 'black';
+      }
+      playerTurn.append(playerTurnMsg);
+      playerTurn.append(playerTurnToken);
     }
   }
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -130,7 +222,7 @@ class Game {
           x < this.WIDTH &&
           this.board[y][x] === this.currPlayer
       );
-    }
+    };
 
     for (let y = 0; y < this.HEIGHT; y++) {
       for (let x = 0; x < this.WIDTH; x++) {
@@ -148,12 +240,56 @@ class Game {
       }
     }
   }
+  checkForTie() {
+    for (let y = 0; y < this.HEIGHT; y++) {
+      for (let x = 0; x < this.WIDTH; x++) {
+        if (this.board[y][x] === undefined) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  restartGame() {
+    const playerTurn = document.getElementById('playerTurn');
+    game.innerHTML = '';
+    startGame.style.display = 'block';
+    const restartBtn = document.getElementById('startBtn');
+    restartBtn.innerText = 'Start Game';
+    restartBtn.style.display = 'block';
+    restartBtn.addEventListener('click', () => {
+      playerTurn.remove();
+      let p1 = new Player(document.getElementById('p1color').value);
+      let p2 = new Player(document.getElementById('p2color').value);
+      if (p1.color === p2.color) {
+        alert('Must Select Different Colors!');
+      }
+      else {
+        new Game(p1, p2);
+        const bottom = document.getElementById('bottom');
+        restartBtn.style.display = 'none';
+        startGame.style.display = 'none';
+      }
+    })
+  }
 }
-const game = document.getElementById('game');
-const gameBoard = document.getElementById('board')
-const startBtn = document.getElementById('startBtn');
+
+class Player {
+  constructor(color) {
+    this.color = color;
+  }
+}
+
 startBtn.addEventListener('click', () => {
-  gameBoard.innerHTML = ''
-  new Game();
-  startBtn.innerText = 'Restart Game'
+  let p1 = new Player(document.getElementById('p1color').value);
+  let p2 = new Player(document.getElementById('p2color').value);
+  if (p1.color === p2.color) {
+    alert('Must Select Different Colors!');
+  }
+  else {
+    new Game(p1, p2);
+    startBtn.style.display = 'none';
+    startGame.style.display = 'none';
+  }
 })

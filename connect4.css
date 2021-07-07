@@ -1,34 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root{
+  --green-bg: url('https://images.unsplash.com/photo-1601370690183-1c7796ecec61?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  --blue-bg: url('https://images.unsplash.com/photo-1531169509526-f8f1fdaa4a67?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+  --red-bg: url('https://images.unsplash.com/photo-1577451581742-98bc6c0ea83e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80');
+  --orange-bg: url('https://images.unsplash.com/photo-1605716795075-d035e4f624d6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  --purple-bg: url('https://images.unsplash.com/photo-1606978802549-3276d4199859?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  --yellow-bg: url('https://images.unsplash.com/photo-1516641051054-9df6a1aad654?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+  --pink-bg: url('https://images.unsplash.com/photo-1612293025896-7200cc87e540?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+}
+
+body {
+  background-image: url('https://images.unsplash.com/photo-1524334228333-0f6db392f8a1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #212529;
+  color: #f1faee;
+	font-family: 'Roboto', sans-serif;
+}
+/* 
+Game Board */
+#board{
+  margin: auto;
+  width: 95vw;
+  height: 95vw;
+  max-width: 900px;
+  max-height: 900px;
+  border-radius: 2%;
+  padding: 2rem;
+  background-image: url('https://images.unsplash.com/photo-1522441815192-d9f04eb0615c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=564&q=80');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #457b9d;
+}
+
+#startGame{
+margin: 0;
+text-align: center;
+}
+
+#p2color{
+  margin-top: 1rem;
+}
+
+
+#heading{
+  text-align: center;
+}
+
+#playerTurn{
+  width: 300px;
+  height: 120px;
+  font-size: 2rem;
+  text-align: center;
+  margin: 0 auto;
+margin-top: 1rem;
+
+background-color: black;
+border-radius: 25%;
+padding: 1rem;
+}
+
+#playerturn.span{
+  opacity: 1.0;
+  z-index: 6;
+}
+
 /* game board table */
 
+
 #board td {
-  width: 50px;
-  height: 50px;
-  border: solid 1px #666;
+  border: solid 1px white;
+position: relative;
+border-radius: 50px;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
 
 .piece {
-  margin: 5px;
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 90%;
   border-radius: 50%;
+  position:relative;
+
+  margin: auto;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.piece.p1 {
-  background-color: red;
+.playerToken{
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid black;
+  text-align: center;
+  width: 4rem;
+  height: 4rem;
+  margin: auto;
+  border-radius: 50%;
+  margin-top: 0.5rem;
 }
 
-.piece.p2 {
-  background-color: blue;
+.winningPiece{
+animation: flash linear 1s infinite;
+}
+
+
+.gameovermsg{
+  color:#a8dadc;
+  font-weight: bold;
+  font-size: 3em;
+  text-transform: uppercase;
+}
+
+#playAgain{
+  text-transform: none;
+  font-weight: normal;
+  font-size: 1.5rem;
+  margin-top: 1.2rem;
+  color: blue;
+  cursor: pointer;
 }
 
 /* column-top is table row of clickable areas for each column */
 
 #column-top td {
-  border: dashed 1px lightgray;
+  border-radius: 70% 70% 25% 25%;
+  border: dashed 1px #212529;
 }
 
 #column-top td:hover {
-  background-color: gold;
+  background-color: lightgreen;
+  cursor: pointer;
+}
+
+#gameovertop td{
+    border: dashed 1px lightgray;
+}
+
+#startBtn {
+  display: flex;
+  margin: auto;
+  margin-top: 1em;
+}
+
+#startBtn {
+  display: flex;
+	background-color: green;
+	color: #fff;
+	border: 0;
+	border-radius: 6px;
+	cursor: pointer;
+	font-family: inherit;
+	padding: 8px 30px;
+	font-size: 14px;
+  text-align: center;
+  margin: auto;
+  margin-top: 1rem;
+  
+}
+
+#startBtn:active {
+	transform: scale(.98);
+}
+
+#startBtn:focus {
+	outline: 0;
+}
+
+#startBtn:disabled {
+	background-color: var(--line-border-empty);
+	cursor: not-allowed;
+}
+
+
+.green {
+  background-image: var(--green-bg);
+  background-color: green;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.blue {
+  background-image: var(--blue-bg);
+  background-color: blue;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.red {
+  background-image: var(--red-bg);
+  background-color: red;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.orange{
+  background-image: var(--orange-bg);
+  background-color: orange;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.purple{
+  background-image: var(--purple-bg);
+  background-color: purple;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.yellow{
+  background-image: var(--yellow-bg);
+  background-color: yellow;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.pink{
+  background-image: var(--pink-bg);
+  background-color: pink;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .5; } 
+	100% { opacity: 1; }
+}
+
+@keyframes pulse {
+	0% { width:100%; } 
+	50% { width:110%; } 
+	100% { width:100%; }
+}
+
+@media (max-width: 400px) {
+  #playerTurn{
+    width: 225px;
+    height: 130px;
+    font-size: 1rem;
+}
+.playerToken{
+  width: 3rem;
+  height: 3rem;
+}
+}
+
+@media (max-width: 250px) {
+  #playerTurn{
+    width: 200px;
+    height: 110px;
+    font-size: 1rem;
+}
+.playerToken{
+  width: 2rem;
+  height: 2rem;
+}
 }
