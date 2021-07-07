@@ -13,7 +13,7 @@ class Game {
     this.board = [];
     this.makeBoard();
     this.makeHtmlBoard();
-
+    this.isGameOver = false;
   }
   /** makeBoard: create in-JS board structure:
  *   board = array of rows, each row is array of cells  (board[y][x])
@@ -80,36 +80,40 @@ class Game {
 
   endGame(msg) {
     alert(msg);
+    const top = document.getElementById('column-top')
+    this.isGameOver = true;
   }
 
   /** handleClick: handle click of column top to play piece */
 
   handleClick(evt) {
     // get x from ID of clicked cell
-    const x = +evt.target.id;
-    console.log(this)
-    // get next spot in column (if none, ignore click)
-    const y = this.findSpotForCol(x);
-    if (y === null) {
-      return;
+    if (!this.isGameOver) {
+      const x = +evt.target.id;
+      console.log(this)
+      // get next spot in column (if none, ignore click)
+      const y = this.findSpotForCol(x);
+      if (y === null) {
+        return;
+      }
+
+      // place piece in board and add to HTML table
+      this.board[y][x] = this.currPlayer;
+      this.placeInTable(y, x);
+
+      // check for win
+      if (this.checkForWin()) {
+        return this.endGame(`Player ${this.currPlayer} won!`);
+      }
+
+      // // check for tie
+      if (this.board.every(row => row.every(cell => cell))) {
+        return this.endGame('Tie!');
+      }
+
+      // switch players
+      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
     }
-
-    // place piece in board and add to HTML table
-    this.board[y][x] = this.currPlayer;
-    this.placeInTable(y, x);
-
-    // check for win
-    if (this.checkForWin()) {
-      return this.endGame(`Player ${this.currPlayer} won!`);
-    }
-
-    // // check for tie
-    if (this.board.every(row => row.every(cell => cell))) {
-      return this.endGame('Tie!');
-    }
-
-    // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
   }
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
@@ -118,7 +122,6 @@ class Game {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match currPlayer
-      console.log(this)
       return cells.every(
         ([y, x]) =>
           y >= 0 &&
@@ -146,3 +149,11 @@ class Game {
     }
   }
 }
+const game = document.getElementById('game');
+const gameBoard = document.getElementById('board')
+const startBtn = document.getElementById('startBtn');
+startBtn.addEventListener('click', () => {
+  gameBoard.innerHTML = ''
+  new Game();
+  startBtn.innerText = 'Restart Game'
+})
