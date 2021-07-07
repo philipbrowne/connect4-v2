@@ -11,7 +11,7 @@
 }
 
 body {
-  background-image: url('https://images.unsplash.com/photo-1524334228333-0f6db392f8a1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-image: url('https://images.unsplash.com/photo-1603715749723-240c88df18b1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -37,10 +37,14 @@ Game Board */
 }
 
 #startGame{
+height: 50vh;
 margin: 0;
 text-align: center;
 }
 
+#startContainer{
+transform: translateY(15rem);
+}
 #p2color{
   margin-top: 1rem;
 }
@@ -247,14 +251,21 @@ animation: flash linear 1s infinite;
 
 @media (max-width: 400px) {
   #playerTurn{
-    width: 225px;
-    height: 130px;
+    width: 180px;
+    height: 120px;
     font-size: 1rem;
 }
 .playerToken{
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
 }
+.gameovermsg{
+  font-size: 2rem;
+}
+#playAgain{
+  font-size: 1rem;
+}
+
 }
 
 @media (max-width: 250px) {
