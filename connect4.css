@@ -118,6 +118,7 @@ animation: flash linear 1s infinite;
   font-weight: bold;
   font-size: 3em;
   text-transform: uppercase;
+  animation: flash linear 2s infinite;
 }
 
 #playAgain{
