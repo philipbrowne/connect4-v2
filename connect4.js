@@ -138,7 +138,7 @@ class Game {
       top.setAttribute('id', 'gameovertop');
       this.isGameOver = true;
       this.gameOverMsg();
-    }, 100);
+    }, 150);
   }
 
   gameOverMsg() {
