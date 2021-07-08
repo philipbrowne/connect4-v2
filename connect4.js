@@ -132,11 +132,13 @@ class Game {
   /** endGame: announce game end */
 
   endGame(msg) {
-    alert(msg);
-    const top = document.getElementById('column-top');
-    top.setAttribute('id', 'gameovertop');
-    this.isGameOver = true;
-    this.gameOverMsg();
+    setTimeout(() => {
+      alert(msg);
+      const top = document.getElementById('column-top');
+      top.setAttribute('id', 'gameovertop');
+      this.isGameOver = true;
+      this.gameOverMsg();
+    }, 100);
   }
 
   gameOverMsg() {
