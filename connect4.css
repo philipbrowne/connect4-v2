@@ -43,9 +43,22 @@ text-align: center;
 }
 
 #startContainer{
-transform: translateY(15rem);
-font-size: 1.5rem;
+transform: translateY(30%);
+font-size: 2rem;
+animation: flash-text 3s linear infinite;
 }
+
+.dropdown{
+  font-family: inherit;
+  font-size: 1.5rem;
+  background-color: black;
+  color: white;
+  width: 100px;
+  height: 40px;
+  text-align: center;
+  margin: 1rem;
+}
+
 #p2color{
   margin-top: 1rem;
 }
@@ -53,6 +66,9 @@ font-size: 1.5rem;
 
 #heading{
   text-align: center;
+  font-size: 6rem;
+  font-weight: bold;
+animation: flash-text 3s linear infinite;
 }
 
 #playerTurn{
@@ -62,16 +78,11 @@ font-size: 1.5rem;
   text-align: center;
   margin: 0 auto;
 margin-top: 1rem;
-
 background-color: black;
 border-radius: 25%;
 padding: 1rem;
 }
 
-#playerturn.span{
-  opacity: 1.0;
-  z-index: 6;
-}
 
 /* game board table */
 
@@ -117,7 +128,7 @@ animation: flash linear 1s infinite;
 .gameovermsg{
   color:#a8dadc;
   font-weight: bold;
-  font-size: 3em;
+  font-size: 4em;
   text-transform: uppercase;
   animation: flash linear 2s infinite;
 }
@@ -125,9 +136,9 @@ animation: flash linear 1s infinite;
 #playAgain{
   text-transform: none;
   font-weight: normal;
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-top: 1.2rem;
-  color: blue;
+  color: #a8dadc;
   cursor: pointer;
 }
 
@@ -162,10 +173,10 @@ animation: flash linear 1s infinite;
 	cursor: pointer;
 	font-family: inherit;
 	padding: 8px 30px;
-	font-size: 14px;
+	font-size: 25px;
   text-align: center;
   margin: auto;
-  margin-top: 1rem;
+  margin-top: 3rem;
   
 }
 
@@ -239,19 +250,55 @@ animation: flash linear 1s infinite;
   background-repeat: no-repeat;
 }
 
+.greenselector{
+  background-color: black;
+  color: green;
+}
+.blueselector{
+  background-color: black;
+  color: blue;
+}
+.redselector{
+  background-color: black;
+  color: red;
+}
+.orangeselector{
+  background-color: black;
+  color: orange;
+}
+.purpleselector{
+  background-color: black;
+  color: purple;
+}
+.yellowselector{
+  background-color: black;
+  color: yellow;
+}
+.pinkselector{
+  background-color: black;
+  color: pink;
+}
+
 @keyframes flash {
 	0% { opacity: 1; } 
-	50% { opacity: .5; } 
+	50% { opacity: .7; } 
 	100% { opacity: 1; }
 }
 
-@keyframes pulse {
-	0% { width:100%; } 
-	50% { width:110%; } 
-	100% { width:100%; }
+@keyframes flash-text{
+  0% { color: white; } 
+	50% { color: yellow; } 
+	100% { color: white; }
 }
 
+
 @media (max-width: 400px) {
+  #heading{
+    font-size: 4rem; 
+  }
+  #startContainer{
+    font-size: 1.5rem;
+  }
   #playerTurn{
     width: 180px;
     height: 120px;
@@ -262,17 +309,19 @@ animation: flash linear 1s infinite;
   height: 3.5rem;
 }
 .gameovermsg{
-  font-size: 2rem;
+  font-size: 3rem;
 }
 #playAgain{
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
-
 }
 
 @media (max-width: 250px) {
+  #heading{
+    font-size: 2rem;
+  }
   #playerTurn{
-    width: 200px;
+    width: 100px;
     height: 110px;
     font-size: 1rem;
 }

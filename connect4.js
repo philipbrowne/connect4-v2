@@ -259,7 +259,7 @@ class Game {
     restartBtn.innerText = 'Start Game';
     restartBtn.style.display = 'block';
     restartBtn.addEventListener('click', () => {
-      playerTurn.remove();
+      
       let p1 = new Player(document.getElementById('p1color').value);
       let p2 = new Player(document.getElementById('p2color').value);
       if (p1.color === p2.color) {
