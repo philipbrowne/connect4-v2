@@ -164,6 +164,8 @@ animation: flash linear 1s infinite;
   margin-top: 1em;
 }
 
+
+
 #startBtn {
   display: flex;
 	background-color: green;
@@ -172,12 +174,11 @@ animation: flash linear 1s infinite;
 	border-radius: 6px;
 	cursor: pointer;
 	font-family: inherit;
-	padding: 8px 30px;
-	font-size: 25px;
+	padding: 10px 40px;
+	font-size: 30px;
   text-align: center;
   margin: auto;
   margin-top: 3rem;
-  
 }
 
 #startBtn:active {
